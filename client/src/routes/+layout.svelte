@@ -1,7 +1,11 @@
 <script lang="ts">
-	import '../app.css';
-
+	import ThemeSelector from "$lib/components/ui/theme-selector.svelte";
+	import { userPrefersMode } from "mode-watcher";
+	import "../app.css";
+	import { ModeWatcher } from "mode-watcher";
 	let { children } = $props();
 </script>
 
-{@render children()}
+<ThemeSelector />
+<ModeWatcher defaultMode="system" />
+{@render children?.()}
