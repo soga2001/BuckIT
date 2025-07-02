@@ -3,6 +3,7 @@ node_modules
 # Output
 .output
 .vercel
+.cursor
 .netlify
 .wrangler
 /.svelte-kit
