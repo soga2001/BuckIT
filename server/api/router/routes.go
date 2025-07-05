@@ -61,24 +61,13 @@ func CreateRouter() (*bunrouter.Router, error) {
 	huma.Register(
 		userGroup,
 		huma.Operation{
-			OperationID: "user_register",
-			Method:      http.MethodPost,
-			Path:        "/register",
-			Summary:     "User Register",
-			Description: "Register a user",
+			OperationID: "get_loggedin_user",
+			Method:      http.MethodGet,
+			Path:        "/current_user",
+			Summary:     "Get current user",
+			Description: "Get users that is currently logged in",
 		},
-		userHandler.Register,
-	)
-	huma.Register(
-		userGroup,
-		huma.Operation{
-			OperationID: "user_login",
-			Method:      http.MethodPost,
-			Path:        "/login",
-			Summary:     "User Login",
-			Description: "Login a user",
-		},
-		userHandler.Login,
+		userHandler.GetLoggedinUser,
 	)
 	huma.Register(
 		userGroup,
@@ -94,6 +83,17 @@ func CreateRouter() (*bunrouter.Router, error) {
 	huma.Register(
 		userGroup,
 		huma.Operation{
+			OperationID: "user_by_username",
+			Method:      http.MethodGet,
+			Path:        "/user_by_username/:username",
+			Summary:     "Get user by username",
+			Description: "Get a user (user profile) by their username",
+		},
+		userHandler.GetUserByUsername,
+	)
+	huma.Register(
+		userGroup,
+		huma.Operation{
 			OperationID: "user_by_id",
 			Method:      http.MethodGet,
 			Path:        "/user_by_id/:id",
@@ -102,16 +102,39 @@ func CreateRouter() (*bunrouter.Router, error) {
 		},
 		userHandler.GetUserByID,
 	)
+
 	huma.Register(
 		userGroup,
 		huma.Operation{
-			OperationID: "user_by_username",
-			Method:      http.MethodGet,
-			Path:        "/user_by_username/:username",
-			Summary:     "Get user by username",
-			Description: "Get a user (user profile) by their username",
+			OperationID: "user_login",
+			Method:      http.MethodPost,
+			Path:        "/login",
+			Summary:     "User Login",
+			Description: "Login a user",
 		},
-		userHandler.GetUserByUsername,
+		userHandler.Login,
+	)
+	huma.Register(
+		userGroup,
+		huma.Operation{
+			OperationID: "user_register",
+			Method:      http.MethodPost,
+			Path:        "/register",
+			Summary:     "User Register",
+			Description: "Register a user",
+		},
+		userHandler.Register,
+	)
+	huma.Register(
+		userGroup,
+		huma.Operation{
+			OperationID: "user_logout",
+			Method:      http.MethodPost,
+			Path:        "/logout",
+			Summary:     "User Logout",
+			Description: "Logouts a logged in user",
+		},
+		userHandler.Logout,
 	)
 
 	handler := http.Handler(router)

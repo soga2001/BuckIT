@@ -25,6 +25,27 @@ func NewUserHandler(db *supabase.Client) *UserService {
 	}
 }
 
+func (s *UserService) GetLoggedinUser(ctx context.Context, input *struct{}) (*UserOutput, error) {
+	user, err := s.db.Auth.GetUser()
+	if err != nil {
+		return nil, err
+	}
+
+	userProfile, err := convertUserMetaDataToUserProfile(user.User)
+	if err != nil {
+		return nil, err
+	}
+	userProfile.ID = user.ID
+
+	return &UserOutput{
+		Body: struct {
+			User UserProfile `json:"user" doc:"The user object" required:"true"`
+		}{
+			User: *userProfile,
+		},
+	}, nil
+}
+
 // GetUsers retrieves a list of users (user profiles) from the database.
 func (s *UserService) GetUsers(ctx context.Context, input *struct{}) (*UsersOutput, error) {
 	var users []UserProfile
@@ -165,6 +186,8 @@ func (s *UserService) Login(ctx context.Context, input *UserLoginInput) (*UserLo
 		return nil, err
 	}
 
+	userProfile.ID = session.User.ID
+
 	output := &UserLoginOutput{
 		Body: struct {
 			User UserProfile `json:"user" doc:"The user object" required:"true"`
@@ -199,7 +222,43 @@ func (s *UserService) Login(ctx context.Context, input *UserLoginInput) (*UserLo
 	return output, nil
 }
 
-// Helper functions.
+func (s *UserService) Logout(ctx context.Context, input *UserLogoutInput) (*UserLogoutOutput, error) {
+	err := s.db.Auth.Logout()
+	if err != nil {
+		return nil, err
+	}
+
+	output := &UserLogoutOutput{
+		SetCookie: []*http.Cookie{
+			{
+				Name:     input.AccessToken.Name,
+				Value:    "",
+				MaxAge:   -1,
+				Expires:  time.Unix(0, 0),
+				Path:     "/",
+				Secure:   false,
+				HttpOnly: true,
+				SameSite: http.SameSiteLaxMode,
+			},
+			{
+				Name:     input.RefreshToken.Name,
+				Value:    "",
+				MaxAge:   -1,
+				Expires:  time.Unix(0, 0),
+				Path:     "/",
+				Secure:   false,
+				HttpOnly: true,
+				SameSite: http.SameSiteLaxMode,
+			},
+		},
+	}
+
+	return output, nil
+}
+
+/*
+###### Below are Helper Functions ######
+*/
 
 // convertUserMetaDataToUserProfile digets UserMetaData from supabase to UserProfile
 func convertUserMetaDataToUserProfile(user types.User) (*UserProfile, error) {
