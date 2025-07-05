@@ -14,7 +14,7 @@ import (
 )
 
 // CreateRouter initializes the API router and sets up the routes.
-func CreateRouter() (*bunrouter.Router, error) {
+func CreateRouter() (*http.Handler, error) {
 	// Create a new router & API.
 	router := bunrouter.New()
 	humaConfig := huma.DefaultConfig("BuckIT API", "1.0.0")
@@ -138,7 +138,7 @@ func CreateRouter() (*bunrouter.Router, error) {
 	)
 
 	handler := http.Handler(router)
-	_ = cors.Default().Handler(handler)
+	corsHandler := cors.Default().Handler(handler)
 
-	return router, nil
+	return &corsHandler, nil
 }

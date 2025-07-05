@@ -5,8 +5,8 @@ SvelteKit: Front-end (client) \
 Golang: Back-end (server) \
 PostgreSQL (supabase): Database \
 
-**Comming in the future** \
-Reddis: Caching, message broker \
+**Coming in the future** \
+Redis: Caching, message broker \
 Python: AI/ML models to personalize content for the users
 
 

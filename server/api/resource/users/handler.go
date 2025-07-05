@@ -95,11 +95,11 @@ func (s *UserService) GetUserByID(ctx context.Context, input *struct {
 
 // GetUserByUsername gets a user (user profile) by their username
 func (s *UserService) GetUserByUsername(ctx context.Context, input *struct {
-	Username string `path:"username" doc:"The users username" require:"true"`
+	Username string `path:"username" doc:"The users username" required:"true"`
 }) (*UserOutput, error) {
 	username := input.Username
 	if username == "" {
-		return nil, huma.Error400BadRequest("User ID is required")
+		return nil, huma.Error400BadRequest("Username is required")
 	}
 
 	var user UserProfile
@@ -134,7 +134,7 @@ func (s *UserService) Register(ctx context.Context, input *UserRegisterInput) (*
 	// Marshal the struct into a JSON byte slice
 	userMetaDataBytes, err := json.Marshal(input.Body.Data)
 	if err != nil {
-		fmt.Printf("Error marshaling struct: %v\n", err)
+		log.Printf("Error marshaling struct: %v", err)
 		return nil, err
 	}
 
@@ -152,7 +152,7 @@ func (s *UserService) Register(ctx context.Context, input *UserRegisterInput) (*
 	if err != nil {
 		return &UserRegisterOutput{
 			Body: struct {
-				Message string "json:\"message\" doc:\"A message of whether registration was succuessful or not\""
+				Message string "json:\"message\" doc:\"A message of whether registration was successful or not\""
 			}{
 				Message: fmt.Sprintf("Error registering %v", err),
 			},
@@ -161,7 +161,7 @@ func (s *UserService) Register(ctx context.Context, input *UserRegisterInput) (*
 
 	return &UserRegisterOutput{
 		Body: struct {
-			Message string "json:\"message\" doc:\"A message of whether registration was succuessful or not\""
+			Message string "json:\"message\" doc:\"A message of whether registration was successful or not\""
 		}{
 			Message: "Registration was successful",
 		},
@@ -260,7 +260,7 @@ func (s *UserService) Logout(ctx context.Context, input *UserLogoutInput) (*User
 ###### Below are Helper Functions ######
 */
 
-// convertUserMetaDataToUserProfile digets UserMetaData from supabase to UserProfile
+// convertUserMetaDataToUserProfile digests UserMetaData from supabase to UserProfile
 func convertUserMetaDataToUserProfile(user types.User) (*UserProfile, error) {
 	// Marshal user.UserMetadata directly
 	jsonData, err := json.Marshal(user.UserMetadata)

@@ -23,5 +23,5 @@ func main() {
 	}
 
 	fmt.Println("Starting server on http://localhost:8080")
-	http.ListenAndServe("localhost:8080", r)
+	http.ListenAndServe("localhost:8080", *r)
 }

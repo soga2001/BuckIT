@@ -12,20 +12,20 @@ type User struct {
 }
 
 type UserProfile struct {
-	ID         uuid.UUID `json:"id" doc:"The unique identifier for the user" required:"true"`
-	Created_At string    `json:"created_at" doc:"The date and time when the user was created" required:"true"`
-	Updated_At string    `json:"updated_at" doc:"The date and time when the user was last updated" required:"true"`
-	Username   string    `json:"username" doc:"The username of the user" required:"true"`
-	Full_Name  string    `json:"full_name" doc:"The full name of the user" required:"true"`
-	Avatar_URL string    `json:"avatar_url" doc:"The URL of the user's avatar image" required:"true"`
-	Website    string    `json:"website" doc:"The user's personal or professional website URL" required:"true"`
-	Bio        string    `json:"bio" doc:"A short biography or description of the user" required:"true"`
-	Location   string    `json:"location" doc:"The user's location, such as city or country" required:"true"`
-	Dob        string    `json:"dob" doc:"The date of birth of the user in ISO 8601 format" required:"true"`
-	Private    bool      `json:"private" doc:"Indicates whether the user's profile is private (true) or public (false)" required:"true"`
-	Verified   bool      `json:"verified" doc:"Indicates whether the user is verified (true) or not (false)" required:"true"`
-	Followers  int       `json:"followers" doc:"The number of followers the user has" required:"true"`
-	Following  int       `json:"following" doc:"The number of users the user is following" required:"true"`
+	ID        uuid.UUID `json:"id" doc:"The unique identifier for the user" required:"true"`
+	CreatedAt string    `json:"created_at" doc:"The date and time when the user was created" required:"true"`
+	UpdatedAt string    `json:"updated_at" doc:"The date and time when the user was last updated" required:"true"`
+	Username  string    `json:"username" doc:"The username of the user" required:"true"`
+	FullName  string    `json:"full_name" doc:"The full name of the user" required:"true"`
+	AvatarURL string    `json:"avatar_url" doc:"The URL of the user's avatar image" required:"true"`
+	Website   string    `json:"website" doc:"The user's personal or professional website URL" required:"true"`
+	Bio       string    `json:"bio" doc:"A short biography or description of the user" required:"true"`
+	Location  string    `json:"location" doc:"The user's location, such as city or country" required:"true"`
+	Dob       string    `json:"dob" doc:"The date of birth of the user in ISO 8601 format" required:"true"`
+	Private   bool      `json:"private" doc:"Indicates whether the user's profile is private (true) or public (false)" required:"true"`
+	Verified  bool      `json:"verified" doc:"Indicates whether the user is verified (true) or not (false)" required:"true"`
+	Followers int       `json:"followers" doc:"The number of followers the user has" required:"true"`
+	Following int       `json:"following" doc:"The number of users the user is following" required:"true"`
 }
 
 // UserOutput is user to return a singular user profile.
@@ -68,18 +68,18 @@ type UserRegisterInput struct {
 }
 
 type UserRegisterMetaData struct {
-	Username   string `json:"username" doc:"The username of the user" required:"true"`
-	Full_Name  string `json:"full_name" doc:"The full name of the user" required:"true"`
-	Avatar_URL string `json:"avatar_url,omitempty" doc:"The URL of the user's avatar image" required:"false"`
-	Website    string `json:"website,omitempty" doc:"The user's personal or professional website URL" required:"false"`
-	Bio        string `json:"bio,omitempty" doc:"A short biography or description of the user" required:"false"`
-	Location   string `json:"location,omitempty" doc:"The user's location, such as city or country" required:"false"`
-	Dob        string `json:"dob" doc:"The date of birth of the user in ISO 8601 format" required:"true"`
+	Username  string `json:"username" doc:"The username of the user" required:"true"`
+	FullName  string `json:"full_name" doc:"The full name of the user" required:"true"`
+	AvatarURL string `json:"avatar_url,omitempty" doc:"The URL of the user's avatar image" required:"false"`
+	Website   string `json:"website,omitempty" doc:"The user's personal or professional website URL" required:"false"`
+	Bio       string `json:"bio,omitempty" doc:"A short biography or description of the user" required:"false"`
+	Location  string `json:"location,omitempty" doc:"The user's location, such as city or country" required:"false"`
+	Dob       string `json:"dob" doc:"The date of birth of the user in ISO 8601 format" required:"true"`
 }
 
 type UserRegisterOutput struct {
 	Body struct {
-		Message string `json:"message" doc:"A message of whether registration was succuessful or not"`
+		Message string `json:"message" doc:"A message of whether registration was successful or not"`
 	}
 }
 

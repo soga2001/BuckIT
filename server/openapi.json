@@ -320,7 +320,7 @@
             "type": "string"
           },
           "message": {
-            "description": "A message of whether registration was succuessful or not",
+            "description": "A message of whether registration was successful or not",
             "type": "string"
           }
         },
