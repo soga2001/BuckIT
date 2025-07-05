@@ -2,9 +2,11 @@ package router
 
 import (
 	"net/http"
+	"server/api/resource/database"
 	"server/api/resource/users"
 
 	"github.com/danielgtaylor/huma/v2"
+	"github.com/rs/cors"
 	"github.com/uptrace/bunrouter"
 
 	"github.com/danielgtaylor/huma/v2/adapters/humabunrouter"
@@ -12,7 +14,7 @@ import (
 )
 
 // CreateRouter initializes the API router and sets up the routes.
-func CreateRouter() (*bunrouter.Router, error) {
+func CreateRouter() (*http.Handler, error) {
 	// Create a new router & API.
 	router := bunrouter.New()
 	humaConfig := huma.DefaultConfig("BuckIT API", "1.0.0")
@@ -46,13 +48,97 @@ func CreateRouter() (*bunrouter.Router, error) {
 
 	// Create the default API group.
 	grp := huma.NewGroup(api, "/api/v1")
+	db, err := database.GetClient()
+	if err != nil {
+		return nil, err
+	}
 
 	// Create the user group
 	userGroup := huma.NewGroup(grp, "/users")
 	// Create a new user handler instance.
-	userHandler := users.NewUserHandler()
-	// Create routes for the user group.
-	huma.Get(userGroup, "/", userHandler.GetUsers)
+	userHandler := users.NewUserHandler(db)
+	// Create routes for the user group
+	huma.Register(
+		userGroup,
+		huma.Operation{
+			OperationID: "get_loggedin_user",
+			Method:      http.MethodGet,
+			Path:        "/current_user",
+			Summary:     "Get current user",
+			Description: "Get users that is currently logged in",
+		},
+		userHandler.GetLoggedinUser,
+	)
+	huma.Register(
+		userGroup,
+		huma.Operation{
+			OperationID: "all_users",
+			Method:      http.MethodGet,
+			Path:        "/",
+			Summary:     "Get users",
+			Description: "Get users",
+		},
+		userHandler.GetUsers,
+	)
+	huma.Register(
+		userGroup,
+		huma.Operation{
+			OperationID: "user_by_username",
+			Method:      http.MethodGet,
+			Path:        "/user_by_username/:username",
+			Summary:     "Get user by username",
+			Description: "Get a user (user profile) by their username",
+		},
+		userHandler.GetUserByUsername,
+	)
+	huma.Register(
+		userGroup,
+		huma.Operation{
+			OperationID: "user_by_id",
+			Method:      http.MethodGet,
+			Path:        "/user_by_id/:id",
+			Summary:     "Get user by id",
+			Description: "Get a user (user profile) by their id",
+		},
+		userHandler.GetUserByID,
+	)
 
-	return router, nil
+	huma.Register(
+		userGroup,
+		huma.Operation{
+			OperationID: "user_login",
+			Method:      http.MethodPost,
+			Path:        "/login",
+			Summary:     "User Login",
+			Description: "Login a user",
+		},
+		userHandler.Login,
+	)
+	huma.Register(
+		userGroup,
+		huma.Operation{
+			OperationID: "user_register",
+			Method:      http.MethodPost,
+			Path:        "/register",
+			Summary:     "User Register",
+			Description: "Register a user",
+		},
+		userHandler.Register,
+	)
+	huma.Register(
+		userGroup,
+		huma.Operation{
+			OperationID: "user_logout",
+			Method:      http.MethodPost,
+			Path:        "/logout",
+			Summary:     "User Logout",
+			Description: "Logouts a logged in user",
+		},
+		userHandler.Logout,
+	)
+
+	handler := http.Handler(router)
+	corsHandler := cors.Default().Handler(handler)
+
+	return &corsHandler, nil
 }

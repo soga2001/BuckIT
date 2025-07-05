@@ -1,20 +1,19 @@
 # BuckIT
 
-### Tech Stack
----
+## Tech Stack
 SvelteKit: Front-end (client) \
 Golang: Back-end (server) \
 PostgreSQL (supabase): Database \
 
-**Comming in the future** \
-Reddis: Caching, message broker \
+**Coming in the future** \
+Redis: Caching, message broker \
 Python: AI/ML models to personalize content for the users
 
 
-### Features
----
+## Features
 - [x] Light/Dark Mode
-- [ ] Login and Registration
+- [ ] Registration
+- [ ] Login 
 - [ ] Logout
 - [ ] User Profile
 - [ ] Private Account   
@@ -29,14 +28,13 @@ Python: AI/ML models to personalize content for the users
 - [ ] Push notification
 - [ ] Subscribe to a BuckIT list or an individual item from a list
 
-#### Requirements
+## Requirements
 ```
 Node: 22.4.1
 Golang: 1.24.4
 ```
 
-### Client
----
+## Client
 1. Step into the `client` directory
     ```sh
     cd client
@@ -50,8 +48,7 @@ Golang: 1.24.4
     npm run dev
     ```
 
-### Server
----
+## Server
 1. Step into the `server` directory
     ```sh
     cd server
@@ -65,8 +62,24 @@ Golang: 1.24.4
     go run .
     ```
 
-### How to generate openapi.json file
----
+    #### Folder Structure
+    ```
+    server/
+        - api/
+            - resource/
+                - database/             ==> Database client for supabase
+                - user/                 ==> User handlers, models, and anything else related to user
+            - router/                   ==> Defines the routes
+        - .env
+        - .gitignore
+        - generate-openapi-json.sh      ==> Generate openapi.json file
+        - go.mod
+        - go.sum
+        - main.go
+        - openapi.json                  ==> Generated documentation from application
+    ```
+
+## How to generate openapi.json file
 1. Start the server
     ```sh
     # go to the server directory

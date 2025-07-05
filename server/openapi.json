@@ -82,34 +82,52 @@
         },
         "type": "object"
       },
-      "User": {
+      "UserLoginInputBody": {
         "additionalProperties": false,
         "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/UserLoginInputBody.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
           "email": {
             "description": "The email address of the user",
-            "examples": [
-              "john.doe@example.com"
-            ],
             "type": "string"
           },
-          "id": {
-            "description": "The unique identifier for the user",
-            "examples": [
-              "12345"
-            ],
-            "type": "string"
-          },
-          "name": {
-            "description": "The name of the user",
-            "examples": [
-              "John Doe"
-            ],
+          "password": {
+            "description": "The password of the user",
             "type": "string"
           }
         },
         "required": [
-          "name",
-          "email"
+          "email",
+          "password"
+        ],
+        "type": "object"
+      },
+      "UserLoginOutputBody": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/UserLoginOutputBody.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "user": {
+            "$ref": "#/components/schemas/UserProfile",
+            "description": "The user object"
+          }
+        },
+        "required": [
+          "user"
         ],
         "type": "object"
       },
@@ -125,10 +143,208 @@
             "readOnly": true,
             "type": "string"
           },
+          "user": {
+            "$ref": "#/components/schemas/UserProfile",
+            "description": "The user object"
+          }
+        },
+        "required": [
+          "user"
+        ],
+        "type": "object"
+      },
+      "UserProfile": {
+        "additionalProperties": false,
+        "properties": {
+          "avatar_url": {
+            "description": "The URL of the user's avatar image",
+            "type": "string"
+          },
+          "bio": {
+            "description": "A short biography or description of the user",
+            "type": "string"
+          },
+          "created_at": {
+            "description": "The date and time when the user was created",
+            "type": "string"
+          },
+          "dob": {
+            "description": "The date of birth of the user in ISO 8601 format",
+            "type": "string"
+          },
+          "followers": {
+            "description": "The number of followers the user has",
+            "format": "int64",
+            "type": "integer"
+          },
+          "following": {
+            "description": "The number of users the user is following",
+            "format": "int64",
+            "type": "integer"
+          },
+          "full_name": {
+            "description": "The full name of the user",
+            "type": "string"
+          },
+          "id": {
+            "description": "The unique identifier for the user",
+            "type": "string"
+          },
+          "location": {
+            "description": "The user's location, such as city or country",
+            "type": "string"
+          },
+          "private": {
+            "description": "Indicates whether the user's profile is private (true) or public (false)",
+            "type": "boolean"
+          },
+          "updated_at": {
+            "description": "The date and time when the user was last updated",
+            "type": "string"
+          },
+          "username": {
+            "description": "The username of the user",
+            "type": "string"
+          },
+          "verified": {
+            "description": "Indicates whether the user is verified (true) or not (false)",
+            "type": "boolean"
+          },
+          "website": {
+            "description": "The user's personal or professional website URL",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "created_at",
+          "updated_at",
+          "username",
+          "full_name",
+          "avatar_url",
+          "website",
+          "bio",
+          "location",
+          "dob",
+          "private",
+          "verified",
+          "followers",
+          "following"
+        ],
+        "type": "object"
+      },
+      "UserRegisterInputBody": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/UserRegisterInputBody.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/UserRegisterMetaData",
+            "description": "The user profile information"
+          },
+          "email": {
+            "description": "The email address of the user",
+            "type": "string"
+          },
+          "password": {
+            "description": "The password of the user",
+            "type": "string"
+          },
+          "phone": {
+            "description": "The phone number of the user",
+            "type": "string"
+          }
+        },
+        "required": [
+          "password",
+          "data"
+        ],
+        "type": "object"
+      },
+      "UserRegisterMetaData": {
+        "additionalProperties": false,
+        "properties": {
+          "avatar_url": {
+            "description": "The URL of the user's avatar image",
+            "type": "string"
+          },
+          "bio": {
+            "description": "A short biography or description of the user",
+            "type": "string"
+          },
+          "dob": {
+            "description": "The date of birth of the user in ISO 8601 format",
+            "type": "string"
+          },
+          "full_name": {
+            "description": "The full name of the user",
+            "type": "string"
+          },
+          "location": {
+            "description": "The user's location, such as city or country",
+            "type": "string"
+          },
+          "username": {
+            "description": "The username of the user",
+            "type": "string"
+          },
+          "website": {
+            "description": "The user's personal or professional website URL",
+            "type": "string"
+          }
+        },
+        "required": [
+          "username",
+          "full_name",
+          "dob"
+        ],
+        "type": "object"
+      },
+      "UserRegisterOutputBody": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/UserRegisterOutputBody.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "message": {
+            "description": "A message of whether registration was successful or not",
+            "type": "string"
+          }
+        },
+        "required": [
+          "message"
+        ],
+        "type": "object"
+      },
+      "UsersOutputBody": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/UsersOutputBody.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
           "users": {
             "description": "A list of users",
             "items": {
-              "$ref": "#/components/schemas/User"
+              "$ref": "#/components/schemas/UserProfile"
             },
             "type": [
               "array",
@@ -151,7 +367,37 @@
   "paths": {
     "/api/v1/users/": {
       "get": {
-        "operationId": "get-api-v1-users",
+        "description": "Get users",
+        "operationId": "all_users",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsersOutputBody"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Get users"
+      }
+    },
+    "/api/v1/users/current_user": {
+      "get": {
+        "description": "Get users that is currently logged in",
+        "operationId": "get_loggedin_user",
         "responses": {
           "200": {
             "content": {
@@ -174,7 +420,363 @@
             "description": "Error"
           }
         },
-        "summary": "Get API v1 users"
+        "summary": "Get current user"
+      }
+    },
+    "/api/v1/users/login": {
+      "post": {
+        "description": "Login a user",
+        "operationId": "user_login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserLoginInputBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserLoginOutputBody"
+                }
+              }
+            },
+            "description": "OK",
+            "headers": {
+              "Domain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Expires": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "HttpOnly": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "MaxAge": {
+                "schema": {
+                  "format": "int64",
+                  "type": "integer"
+                }
+              },
+              "Name": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Partitioned": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "Path": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Quoted": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "Raw": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "RawExpires": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "SameSite": {
+                "schema": {
+                  "format": "int64",
+                  "type": "integer"
+                }
+              },
+              "Secure": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "Set-Cookie": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Unparsed": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Value": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "User Login"
+      }
+    },
+    "/api/v1/users/logout": {
+      "post": {
+        "description": "Logouts a logged in user",
+        "operationId": "user_logout",
+        "parameters": [
+          {
+            "in": "cookie",
+            "name": "access_token",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "cookie",
+            "name": "refresh_token",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content",
+            "headers": {
+              "Domain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Expires": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "HttpOnly": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "MaxAge": {
+                "schema": {
+                  "format": "int64",
+                  "type": "integer"
+                }
+              },
+              "Name": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Partitioned": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "Path": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Quoted": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "Raw": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "RawExpires": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "SameSite": {
+                "schema": {
+                  "format": "int64",
+                  "type": "integer"
+                }
+              },
+              "Secure": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "Set-Cookie": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Unparsed": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Value": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "User Logout"
+      }
+    },
+    "/api/v1/users/register": {
+      "post": {
+        "description": "Register a user",
+        "operationId": "user_register",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserRegisterInputBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserRegisterOutputBody"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "User Register"
+      }
+    },
+    "/api/v1/users/user_by_id/:id": {
+      "get": {
+        "description": "Get a user (user profile) by their id",
+        "operationId": "user_by_id",
+        "parameters": [
+          {
+            "description": "The unique identifier for the user",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "description": "The unique identifier for the user",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserOutputBody"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Get user by id"
+      }
+    },
+    "/api/v1/users/user_by_username/:username": {
+      "get": {
+        "description": "Get a user (user profile) by their username",
+        "operationId": "user_by_username",
+        "parameters": [
+          {
+            "description": "The users username",
+            "in": "path",
+            "name": "username",
+            "required": true,
+            "schema": {
+              "description": "The users username",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserOutputBody"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Get user by username"
       }
     }
   }
