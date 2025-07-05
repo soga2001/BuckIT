@@ -12,9 +12,9 @@ Python: AI/ML models to personalize content for the users
 
 ## Features
 - [x] Light/Dark Mode
-- [x] Registration
-- [x] Login 
-- [x] Logout
+- [ ] Registration
+- [ ] Login 
+- [ ] Logout
 - [ ] User Profile
 - [ ] Private Account   
 - [ ] Follow/Unfollow Users
@@ -60,6 +60,23 @@ Golang: 1.24.4
 3. Run the server
     ```sh
     go run .
+    ```
+
+    #### Folder Structure
+    ```
+    server/
+        - api/
+            - resource/
+                - database/             ==> Database client for supabase
+                - user/                 ==> User handlers, models, and anything else related to user
+            - router/                   ==> Defines the routes
+        - .env
+        - .gitignore
+        - generate-openapi-json.sh      ==> Generate openapi.json file
+        - go.mod
+        - go.sum
+        - main.go
+        - openapi.json                  ==> Generated documentation from application
     ```
 
 ## How to generate openapi.json file
