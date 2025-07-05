@@ -14,7 +14,8 @@ Python: AI/ML models to personalize content for the users
 ### Features
 ---
 - [x] Light/Dark Mode
-- [ ] Login and Registration
+- [x] Registration
+- [x] Login 
 - [ ] Logout
 - [ ] User Profile
 - [ ] Private Account   

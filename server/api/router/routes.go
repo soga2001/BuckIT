@@ -2,6 +2,7 @@ package router
 
 import (
 	"net/http"
+	"server/api/resource/database"
 	"server/api/resource/users"
 
 	"github.com/danielgtaylor/huma/v2"
@@ -46,13 +47,71 @@ func CreateRouter() (*bunrouter.Router, error) {
 
 	// Create the default API group.
 	grp := huma.NewGroup(api, "/api/v1")
+	db, err := database.GetClient()
+	if err != nil {
+		return nil, err
+	}
 
 	// Create the user group
 	userGroup := huma.NewGroup(grp, "/users")
 	// Create a new user handler instance.
-	userHandler := users.NewUserHandler()
-	// Create routes for the user group.
-	huma.Get(userGroup, "/", userHandler.GetUsers)
+	userHandler := users.NewUserHandler(db)
+	// Create routes for the user group
+	huma.Register(
+		userGroup,
+		huma.Operation{
+			OperationID: "user_register",
+			Method:      http.MethodPost,
+			Path:        "/register",
+			Summary:     "User Register",
+			Description: "Register a user",
+		},
+		userHandler.Register,
+	)
+	huma.Register(
+		userGroup,
+		huma.Operation{
+			OperationID: "user_login",
+			Method:      http.MethodPost,
+			Path:        "/login",
+			Summary:     "User Login",
+			Description: "Login a user",
+		},
+		userHandler.Login,
+	)
+	huma.Register(
+		userGroup,
+		huma.Operation{
+			OperationID: "all_users",
+			Method:      http.MethodGet,
+			Path:        "/",
+			Summary:     "Get users",
+			Description: "Get users",
+		},
+		userHandler.GetUsers,
+	)
+	huma.Register(
+		userGroup,
+		huma.Operation{
+			OperationID: "user_by_id",
+			Method:      http.MethodGet,
+			Path:        "/user_by_id/:id",
+			Summary:     "Get user by id",
+			Description: "Get a user (user profile) by their id",
+		},
+		userHandler.GetUserByID,
+	)
+	huma.Register(
+		userGroup,
+		huma.Operation{
+			OperationID: "user_by_username",
+			Method:      http.MethodGet,
+			Path:        "/user_by_username/:username",
+			Summary:     "Get user by username",
+			Description: "Get a user (user profile) by their username",
+		},
+		userHandler.GetUserByUsername,
+	)
 
 	return router, nil
 }
