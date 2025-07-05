@@ -6,6 +6,7 @@ import (
 	"server/api/resource/users"
 
 	"github.com/danielgtaylor/huma/v2"
+	"github.com/rs/cors"
 	"github.com/uptrace/bunrouter"
 
 	"github.com/danielgtaylor/huma/v2/adapters/humabunrouter"
@@ -112,6 +113,9 @@ func CreateRouter() (*bunrouter.Router, error) {
 		},
 		userHandler.GetUserByUsername,
 	)
+
+	handler := http.Handler(router)
+	_ = cors.Default().Handler(handler)
 
 	return router, nil
 }

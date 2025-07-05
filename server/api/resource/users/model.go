@@ -49,7 +49,7 @@ type UserLoginInput struct {
 }
 
 type UserLoginOutput struct {
-	SetCookie *http.Cookie `header:"Set-Cookie"`
+	SetCookie []*http.Cookie `header:"Set-Cookie"`
 	Body      struct {
 		User UserProfile `json:"user" doc:"The user object" required:"true"`
 	}

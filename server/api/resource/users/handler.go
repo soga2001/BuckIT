@@ -27,8 +27,6 @@ func NewUserHandler(db *supabase.Client) *UserService {
 
 // GetUsers retrieves a list of users (user profiles) from the database.
 func (s *UserService) GetUsers(ctx context.Context, input *struct{}) (*UsersOutput, error) {
-	user, _ := s.db.Auth.GetUser()
-	log.Println("here", user)
 	var users []UserProfile
 	_, err := s.db.From("profiles").Select("*", "", false).ExecuteTo(&users)
 	if err != nil {
@@ -175,26 +173,27 @@ func (s *UserService) Login(ctx context.Context, input *UserLoginInput) (*UserLo
 		},
 	}
 
-	output.SetCookie = &http.Cookie{
-		Name:     "access_token",
-		Value:    session.AccessToken,
-		MaxAge:   session.ExpiresIn,
-		Expires:  time.Now().Add(time.Duration(session.ExpiresIn) * time.Second),
-		Path:     "/",
-		Secure:   false,
-		HttpOnly: true,
-		SameSite: http.SameSiteLaxMode,
-	}
-
-	output.SetCookie = &http.Cookie{
-		Name:     "refresh_token",
-		Value:    session.RefreshToken,
-		MaxAge:   int(session.ExpiresAt),
-		Expires:  time.Now().Add(time.Duration(session.ExpiresAt)),
-		Path:     "/",
-		Secure:   false,
-		HttpOnly: true,
-		SameSite: http.SameSiteLaxMode,
+	output.SetCookie = []*http.Cookie{
+		{
+			Name:     "access_token",
+			Value:    session.AccessToken,
+			MaxAge:   session.ExpiresIn,
+			Expires:  time.Now().Add(time.Duration(session.ExpiresIn) * time.Second),
+			Path:     "/",
+			Secure:   false,
+			HttpOnly: true,
+			SameSite: http.SameSiteLaxMode,
+		},
+		{
+			Name:     "refresh_token",
+			Value:    session.RefreshToken,
+			MaxAge:   int(session.ExpiresAt),
+			Expires:  time.Now().Add(time.Duration(session.ExpiresAt)),
+			Path:     "/",
+			Secure:   false,
+			HttpOnly: true,
+			SameSite: http.SameSiteLaxMode,
+		},
 	}
 
 	return output, nil
